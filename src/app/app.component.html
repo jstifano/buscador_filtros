@@ -1,6 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <input type="text" style="width: 500px; height: 30px; border-color: black; font-size: larger;" [(ngModel)]="input_filter" (keydown.enter)="makeSearching($event)"><br>
+<div ng2-auto-complete [source]="values_autocompleted">
+  <input type="text" style="width: 500px; height: 30px; border-color: black; font-size: larger;" [(ngModel)]="input_filter"
+    (keydown.enter)="makeSearching($event)" align="center"><br>
   {{filters}}
 </div>
 
