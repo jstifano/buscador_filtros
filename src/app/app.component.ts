@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   dataObtained = null;
   input_filter = null;
   array_formatted = [];
-  filters = [];
+  filters = []; // Array donde se guardaran los carros filtrados
 
   constructor(private http: HttpClient) { }
 
