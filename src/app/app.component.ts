@@ -105,7 +105,7 @@ export class AppComponent implements OnInit {
       this.input_filter = null;
     }
 
-    this.filters = _.uniqBy(this.filters, 'id'); 
+    this.filters = _.uniqBy(this.filters, 'id'); // Quito los registros que esten duplicados
     console.log("Filters ::: ", this.filters);
   }
 }
