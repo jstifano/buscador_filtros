@@ -4,9 +4,9 @@ import _ from 'lodash';
     Busca los vehiculos que cumplan con la condicion del filtro, para el 
     correcto funcionamiento necesita la libreria lodash
     Recibe: 
-        data: el json con la informacion de los vehiculos
+        data: arreglo con todos los vehiculos
         input_filter: el string con las palabras a buscar
-    Retorna: Un objeto que contiene los vehiculos ya filtrados
+    Retorna: Un arreglo que contiene los vehiculos ya filtrados
  */
 
 export default function findCars(data, input_filter) {
