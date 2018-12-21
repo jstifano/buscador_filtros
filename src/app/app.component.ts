@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getJson().subscribe(info => {
       this.dataObtained = info["data"];
+      console.log(this.dataObtained.length);
       this.getValuesForAutoComplete(this.dataObtained);
       this.formattingData(info["data"]);
     });
@@ -129,18 +130,19 @@ export class AppComponent implements OnInit {
   };
 
   valueAutoComplete(data: any): string {
-    return `(${data["id"]}) ${data["car_name"]}`;
+    return `(${data["id"]}) ${data["car_make"]}`;
   }
 
   getValuesForAutoComplete = data => {
     for (let i = 0; i < data.length; i++) {
       let new_value = {
         id: i,
-        value: data[i].car_name
+        value: data[i].car_make
       };
 
       this.values_autocompleted.push(new_value);
     }
+    //this.values_autocompleted = _.uniqBy(this.values_autocompleted, 'car_make')
   };
 
   /*************************************************
@@ -165,4 +167,5 @@ export class AppComponent implements OnInit {
             
     return r;
   }
+
 }
