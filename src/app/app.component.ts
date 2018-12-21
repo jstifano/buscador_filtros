@@ -120,7 +120,7 @@ export class AppComponent implements OnInit {
         }
       }
     } else {
-      this.filters = [];
+      this.filters = this.dataObtained;
       this.input_filter = null;
     }
 
@@ -154,7 +154,7 @@ export class AppComponent implements OnInit {
     else {
       return s;
     }
-    
+
     //r = r.replace(new RegExp(/\s/g),"");
     r = r.replace(new RegExp(/[àáâãäå]/g),"a");
     r = r.replace(new RegExp(/[èéêë]/g),"e");
