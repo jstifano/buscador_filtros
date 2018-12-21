@@ -8,14 +8,12 @@ import _ from "lodash";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
-  title = "buscar";
   jsonUrl = "./assets/catalogo.json"; // Ruta donde se encuentra el archivo JSON
   dataObtained = null;
   input_filter = null;
   array_formatted = [];
   values_autocompleted = [];
   filters = []; // Array donde se guardaran los carros filtrados
-  colors = "ROJOAZULBLANCONEGROAMARILLOMARRONVERDE"; // Colores de los carros
 
   constructor(private http: HttpClient) {}
 
@@ -45,37 +43,35 @@ export class AppComponent implements OnInit {
     for (let i = 0; i < data.length; i++) {
       // Asigno todos los filtros en un string minimizado para la busqueda mas eficiente
       object.word_minimized =
-        data[i].body_type.toLowerCase() +
-        data[i].car_make.toLowerCase() +
-        data[i].car_model.toLowerCase() +
-        data[i].car_trim.toLowerCase() +
-        data[i].car_year.toLowerCase() +
-        data[i].cylinder.toLowerCase() +
-        data[i].date_delivery.toLowerCase() +
-        data[i].doors.toLowerCase() +
+        data[i].body_type +
+        data[i].car_make +
+        data[i].car_model +
+        data[i].car_trim +
+        data[i].car_year +
+        data[i].cylinder +
+        data[i].doors +
         data[i].downpayment.toString() +
-        data[i].engine.toLowerCase() +
-        data[i].ext_color.toLowerCase() +
+        data[i].ext_color +
         data[i].fepm.toString() +
-        data[i].filter_status.toLowerCase() +
-        data[i].fuel_type.toLowerCase() +
-        data[i].horsepower.toLowerCase() +
-        //data[i].interior_color.toLowerCase() +
-        data[i].km.toLowerCase() +
-        data[i].location_filter.toLowerCase() +
+        data[i].filter_status +
+        data[i].fuel_type +
+        data[i].horsepower +
+        data[i].km +
+        data[i].location_filter +
         data[i].market_price.toString() +
         data[i].passengers.toString() +
         data[i].price.toString() +
         data[i].savings.toString() +
-        data[i].seats.toLowerCase() +
-        data[i].status.toLowerCase() +
-        data[i].traction.toLowerCase() +
-        data[i].transmission.toLowerCase() +
-        data[i].uber_type.toLowerCase();
+        data[i].seats +
+        data[i].status +
+        data[i].traction +
+        data[i].transmission +
+        data[i].uber_type;
 
       object.word_minimized.replace(/ /g, ""); // Quito todos los espacios en blanco del string completo
-
-      this.array_formatted.push(object.word_minimized); // Agrego el string nuevo de los filtros al arreglo formateado
+      object.word_minimized = object.word_minimized.toLowerCase();
+      let word_formatted = this.takeOffAcents(object.word_minimized);
+      this.array_formatted.push(word_formatted); // Agrego el string nuevo de los filtros al arreglo formateado
       object.word_minimized = ""; // Limpio la variable local del objeto
     }
   };
@@ -88,7 +84,7 @@ export class AppComponent implements OnInit {
     let split_filters = []; // Todos los filtros cada uno colocado en una posicion del arreglo
     let aux_array_formatted = [];
     this.filters = [];
-    this.input_filter = entry || null; // Si el entry no existe, le asigno null
+    this.input_filter = this.takeOffAcents(entry) || null; // Si el entry no existe, le asigno null
     
     if (this.input_filter) {
       // Si la variable en entrada no es null ni vacia entonces ...
@@ -146,4 +142,20 @@ export class AppComponent implements OnInit {
       this.values_autocompleted.push(new_value);
     }
   };
+
+  /*************************************************
+  * Función para quitar los acentos de una palabra *
+  **************************************************/
+  takeOffAcents = (s) => {
+    let r=s.toLowerCase();
+    //r = r.replace(new RegExp(/\s/g),"");
+    r = r.replace(new RegExp(/[àáâãäå]/g),"a");
+    r = r.replace(new RegExp(/[èéêë]/g),"e");
+    r = r.replace(new RegExp(/[ìíîï]/g),"i");
+    r = r.replace(new RegExp(/ñ/g),"n");                
+    r = r.replace(new RegExp(/[òóôõö]/g),"o");
+    r = r.replace(new RegExp(/[ùúûü]/g),"u");
+            
+    return r;
+  }
 }
