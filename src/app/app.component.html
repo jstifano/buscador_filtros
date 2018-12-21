@@ -6,7 +6,7 @@
   (keydown.enter)="makeSearching(input_filter)"
 /><br />
 <div class="row">
-  <div *ngFor="let carro of filters" class="card col-md-4">
+  <div *ngFor="let carro of filters" class="card col-4">
     <img
       class="card-img-top"
       src="{{ carro.image_url }}"
@@ -16,6 +16,5 @@
     <p>{{ carro.ext_color }}</p>
   </div>
 </div>
-
 
 <router-outlet></router-outlet>
