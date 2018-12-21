@@ -38,11 +38,18 @@ export class AppComponent implements OnInit {
 
   makeSearching(input_filter) {
     this.filters = filterTextInArrayOfObjects(this.data, input_filter, [
-      'interior_color',
-      'km',
-      'downpayments',
-      'benefits',
-      'date_delivery'
+      'car_model',
+      'car_make',
+      'car_trim',
+      'car_year',
+      'transmission',
+      'traction',
+      'ext_color',
+      'doors',
+      'seats',
+      'fuel_type',
+      'cylinder',
+      'body_type'
     ]);
   }
 
