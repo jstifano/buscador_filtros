@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import _ from 'lodash';
 import findCars from './find-cars';
-import { findValueInObject } from './find-value';
+import { filterTextInArrayOfObjects, findValueInObject } from './find-value';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
       this.data = info['data'];
       this.dataObtained = info['data'];
       this.getValuesForAutoComplete(this.dataObtained);
+      // console.log(this.data[0]);
+      // console.log(findValueInObject(this.data[0], 'ford'));
     });
   }
 
@@ -35,8 +37,13 @@ export class AppComponent implements OnInit {
   }
 
   makeSearching(input_filter) {
-    this.filters = findCars(this.data, input_filter);
-    findValueInObject(this.data[0], input_filter, ['interior_color']);
+    this.filters = filterTextInArrayOfObjects(this.data, input_filter, [
+      'interior_color',
+      'km',
+      'downpayments',
+      'benefits',
+      'date_delivery'
+    ]);
   }
 
   getValuesForAutoComplete = data => {

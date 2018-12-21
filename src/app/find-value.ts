@@ -1,17 +1,33 @@
-export function findValueInObject(data, search: string, exclude?) {
+export function findValueInObject(object: {}, search: string, exclude?: []) {
   let exc;
-  for (const key in data) {
+  for (const key in object) {
     exc = false;
-    exclude.forEach(e => {
-      if (e === key) exc = true;
-    });
-    if (data.hasOwnProperty(key) && !exc) {
-      console.log(key);
-      const element = data[key];
+    if (exclude) {
+      exclude.forEach(e => {
+        if (e === key) exc = true;
+      });
+    }
+    if (object.hasOwnProperty(key) && !exc) {
+      const element = object[key];
       if (element instanceof Object) {
+        if (findValueInObject(element, search)) return true;
+      } else if (typeof element === 'string') {
+        if (element.toLowerCase().indexOf(search.toLowerCase()) !== -1)
+          return true;
       }
-      if (element === search) return true;
     }
   }
   return false;
+}
+
+export function filterTextInArrayOfObjects(data, search: string, exclude?) {
+  let filtered = data;
+  let f;
+  let parameters = search.split(' ');
+  parameters.forEach(parameter => {
+    filtered = filtered.filter(object =>
+      findValueInObject(object, parameter, exclude)
+    );
+  });
+  return filtered;
 }
