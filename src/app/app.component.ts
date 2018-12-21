@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
         data[i].filter_status.toLowerCase() +
         data[i].fuel_type.toLowerCase() +
         data[i].horsepower.toLowerCase() +
-        data[i].interior_color.toLowerCase() +
+        //data[i].interior_color.toLowerCase() +
         data[i].km.toLowerCase() +
         data[i].location_filter.toLowerCase() +
         data[i].market_price.toString() +
@@ -84,31 +84,23 @@ export class AppComponent implements OnInit {
    * Funcion para realizar la búsqueda mediante los filtros ingresados *
    *********************************************************************/
 
-  makeSearching = () => {
+  makeSearching = (entry) => {
     let split_filters = []; // Todos los filtros cada uno colocado en una posicion del arreglo
     let aux_array_formatted = [];
-
+    this.filters = [];
+    this.input_filter = entry || null; // Si el entry no existe, le asigno null
+    
     if (this.input_filter) {
       // Si la variable en entrada no es null ni vacia entonces ...
       split_filters = this.input_filter.toLowerCase().split(" ");
-
       for (let j = 0; j < split_filters.length; j++) {
         // Quiere decir que hay mas de un filtro para recorrer en el split
         if (j > 0) {
-          this.filters = [];
           for (let h = 0; h < aux_array_formatted.length; h++) {
             if (aux_array_formatted[h].data.indexOf(split_filters[j]) !== -1) {
-              let valid_color = this.validatingColors(
-                this.dataObtained[aux_array_formatted[h].pos].ext_color,
-                this.dataObtained[aux_array_formatted[h].pos].interior_color,
-                split_filters[j]
-              );
-
-              if (valid_color === 1 || valid_color === -1) {
-                this.filters.push(
-                  this.dataObtained[aux_array_formatted[h].pos]
-                );
-              }
+              this.filters.push(
+                this.dataObtained[aux_array_formatted[h].pos]
+              ); 
             } else {
               this.filters.splice(h, 1);
             }
@@ -123,16 +115,9 @@ export class AppComponent implements OnInit {
                 pos: i,
                 data: this.array_formatted[i]
               };
-              let valid_color = this.validatingColors(
-                this.dataObtained[i].ext_color,
-                this.dataObtained[i].interior_color,
-                split_filters[j]
-              );
 
-              if (valid_color === 1 || valid_color === -1) {
-                this.filters.push(this.dataObtained[i]);
-                aux_array_formatted.push(new_info);
-              }
+              this.filters.push(this.dataObtained[i]);
+              aux_array_formatted.push(new_info);              
             }
           }
         }
@@ -144,26 +129,6 @@ export class AppComponent implements OnInit {
 
     this.filters = _.uniqBy(this.filters, "id"); // Quito los registros que esten duplicados
     console.log("Filters ::: ", this.filters);
-  };
-
-  /******************************************************************
-   * Funcion para validar si un filtro tiene el color como exterior  *
-   ******************************************************************/
-
-  validatingColors = (ext_color, int_color, colorToFilter) => {
-    if (this.colors.indexOf(colorToFilter) !== -1) {
-      // Si el color interno es distinto -1 y el externo es -1, quiere decir que el match se hizo con el interno
-      if (
-        this.colors.indexOf(ext_color.toUpperCase()) === -1 &&
-        this.colors.indexOf(int_color.toUpperCase()) !== -1
-      ) {
-        return 0; //El filtro esta matcheando con el color interior y no con el exterior
-      } else {
-        return 1;
-      }
-    } else {
-      return -1;
-    }
   };
 
   valueAutoComplete(data: any): string {

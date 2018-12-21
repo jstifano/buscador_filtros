@@ -1,22 +1,21 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div ng2-auto-complete [source]="values_autocompleted">
-  <input
-    type="text"
-    style="width: 500px; height: 30px; border-color: black; font-size: larger;"
-    [(ngModel)]="input_filter"
-    (keydown.enter)="makeSearching($event)"
-  /><br />
-  <div class="row">
-    <div *ngFor="let carro of filters" class="card col-md-4">
-      <img
-        class="card-img-top"
-        src="{{ carro.image_url }}"
-        alt="Card image cap"
-      />
-      <p>{{ carro.car_name }}</p>
-      <p>{{ carro.ext_color }}</p>
-    </div>
+<input
+  type="text"
+  style="width: 500px; height: 30px; border-color: black; font-size: larger;"
+  [(ngModel)]="input_filter"
+  (keydown.enter)="makeSearching(input_filter)"
+/><br />
+<div class="row">
+  <div *ngFor="let carro of filters" class="card col-md-4">
+    <img
+      class="card-img-top"
+      src="{{ carro.image_url }}"
+      alt="Card image cap"
+    />
+    <p>{{ carro.car_name }}</p>
+    <p>{{ carro.ext_color }}</p>
   </div>
 </div>
+
 
 <router-outlet></router-outlet>
