@@ -96,6 +96,7 @@ export class AppComponent implements OnInit {
       for (let j = 0; j < split_filters.length; j++) {
         // Quiere decir que hay mas de un filtro para recorrer en el split
         if (j > 0) {
+          this.filters = [];
           for (let h = 0; h < aux_array_formatted.length; h++) {
             if (aux_array_formatted[h].data.indexOf(split_filters[j]) !== -1) {
               this.filters.push(
