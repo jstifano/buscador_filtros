@@ -1,17 +1,7 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<input
-  type="text"
-  style="width: 500px; height: 30px; border-color: black; font-size: larger;"
-  [(ngModel)]="input_filter"
-  (ngModelChange)="makeSearching(input_filter)"
-/><br />
+<ng2-completer [(ngModel)]="input_filter" [datasource]="dataService" [minSearchLength]="0" (ngModelChange)="makeSearching(input_filter)"></ng2-completer>
 <div class="row">
-  <div *ngFor="let carro of filters" class="card col-4">
-    <img
-      class="card-img-top"
-      src="{{ carro.image_url }}"
-      alt="Card image cap"
-    />
+  <div *ngFor="let carro of filters.filtered" class="card col-4">
+    <img class="card-img-top" src="{{ carro.image_url }}" alt="Card image cap" />
     <p>{{ carro.car_name }}</p>
     <p>{{ carro.ext_color }}</p>
   </div>
