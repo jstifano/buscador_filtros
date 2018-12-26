@@ -15,13 +15,11 @@ export class AppComponent implements OnInit {
   values_autocompleted = [];
   filters = []; // Array donde se guardaran los carros filtrados
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
     this.getJson().subscribe(info => {
       this.dataObtained = info["data"];
-      console.log(this.dataObtained.length);
-      this.getValuesForAutoComplete(this.dataObtained);
       this.formattingData(info["data"]);
     });
   }
@@ -81,12 +79,12 @@ export class AppComponent implements OnInit {
    * Funcion para realizar la búsqueda mediante los filtros ingresados *
    *********************************************************************/
 
-  makeSearching = (entry) => {
+  makeSearching = entry => {
     let split_filters = []; // Todos los filtros cada uno colocado en una posicion del arreglo
     let aux_array_formatted = [];
     this.filters = [];
     this.input_filter = this.takeOffAcents(entry) || null; // Si el entry no existe, le asigno null
-    
+
     if (this.input_filter) {
       // Si la variable en entrada no es null ni vacia entonces ...
       split_filters = this.input_filter.toLowerCase().split(" ");
@@ -96,9 +94,7 @@ export class AppComponent implements OnInit {
           this.filters = [];
           for (let h = 0; h < aux_array_formatted.length; h++) {
             if (aux_array_formatted[h].data.indexOf(split_filters[j]) !== -1) {
-              this.filters.push(
-                this.dataObtained[aux_array_formatted[h].pos]
-              ); 
+              this.filters.push(this.dataObtained[aux_array_formatted[h].pos]);
             } else {
               this.filters.splice(h, 1);
             }
@@ -115,7 +111,7 @@ export class AppComponent implements OnInit {
               };
 
               this.filters.push(this.dataObtained[i]);
-              aux_array_formatted.push(new_info);              
+              aux_array_formatted.push(new_info);
             }
           }
         }
@@ -129,43 +125,25 @@ export class AppComponent implements OnInit {
     console.log("Filters ::: ", this.filters);
   };
 
-  valueAutoComplete(data: any): string {
-    return `(${data["id"]}) ${data["car_make"]}`;
-  }
-
-  getValuesForAutoComplete = data => {
-    for (let i = 0; i < data.length; i++) {
-      let new_value = {
-        id: i,
-        value: data[i].car_make
-      };
-
-      this.values_autocompleted.push(new_value);
-    }
-    //this.values_autocompleted = _.uniqBy(this.values_autocompleted, 'car_make')
-  };
-
   /*************************************************
-  * Función para quitar los acentos de una palabra *
-  **************************************************/
-  takeOffAcents = (s) => {
-    let r = null
-    if(s){
+   * Función para quitar los acentos de una palabra *
+   **************************************************/
+  takeOffAcents = s => {
+    let r = null;
+    if (s) {
       r = s.toLowerCase();
-    }
-    else {
+    } else {
       return s;
     }
 
     //r = r.replace(new RegExp(/\s/g),"");
-    r = r.replace(new RegExp(/[àáâãäå]/g),"a");
-    r = r.replace(new RegExp(/[èéêë]/g),"e");
-    r = r.replace(new RegExp(/[ìíîï]/g),"i");
-    r = r.replace(new RegExp(/ñ/g),"n");                
-    r = r.replace(new RegExp(/[òóôõö]/g),"o");
-    r = r.replace(new RegExp(/[ùúûü]/g),"u");
-            
-    return r;
-  }
+    r = r.replace(new RegExp(/[àáâãäå]/g), "a");
+    r = r.replace(new RegExp(/[èéêë]/g), "e");
+    r = r.replace(new RegExp(/[ìíîï]/g), "i");
+    r = r.replace(new RegExp(/ñ/g), "n");
+    r = r.replace(new RegExp(/[òóôõö]/g), "o");
+    r = r.replace(new RegExp(/[ùúûü]/g), "u");
 
+    return r;
+  };
 }
